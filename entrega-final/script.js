@@ -61,20 +61,27 @@ async function mostrarCatalogo() {
   }
 }
 
-
-
 function comprarAuto() {
   const seleccion = parseInt(prompt('Ingrese el número del auto que desea comprar:')) - 1;
 
   if (seleccion >= 0 && seleccion < autos.length) {
     const autoSeleccionado = autos[seleccion];
 
-    const nombre = prompt('Ingrese su nombre completo:');
+    let nombre = "";
+
+    if(localStorage.getItem('nombre') == null){
+      nombre = prompt('Ingrese su nombre completo:');
+      localStorage.setItem('nombre', nombre);
+    }
+
+    nombre = localStorage.getItem('nombre');
+    
     const direccion = prompt('Ingrese su dirección de entrega:');
     const tarjetaCredito = prompt('Ingrese el número de su tarjeta de crédito:');
 
     const confirmacion = 'Compra realizada exitosamente.\n\nAuto: ' + autoSeleccionado.modelo + ' - ' + autoSeleccionado.marca + '\nNombre: ' + nombre + '\nDirección: ' + direccion + '\nTarjeta de crédito: ' + tarjetaCredito;
 
+    console.log(confirmacion);
     alert(confirmacion);
   } else {
     alert('Selección inválida');
@@ -107,9 +114,11 @@ async function simuladorCompraAuto() {
   } while (opcion !== "3");
 }
 
+console.log("Hola Marcelo, aprobame :)");
+
 
 // obtener elemento del DOM y capturar su evento click
-var btnIniciarSimulador = document.getElementById("btnIniciarSimulador");
+const btnIniciarSimulador = document.getElementById("btnIniciarSimulador");
 btnIniciarSimulador.addEventListener("click", () => {
   simuladorCompraAuto().then(() => console.log("Simulador finalizado"));
 });
