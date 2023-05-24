@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Simulador</title>
-        <meta charset="utf-8">
-    </head>
-    <body>
-        <button id="btnIniciarSimulador">Iniciar Simulador</button>
-        <script type="text/javascript" src="script.js"></script>
-    </body>
+  <head>
+    <title>Simulador</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <button id="btnIniciarSimulador">Iniciar Simulador</button>
+    <div id="output"></div>
+    <div id="menuOpciones" style="display: none;">
+        <label for="numeroAuto">Ingrese el número del auto que desea comprar:</label>
+        <input type="number" id="numeroAuto"><br>
+        <label for="nombre">Ingrese su nombre completo:</label>
+        <input type="text" id="nombre"><br>
+        <label for="direccion">Ingrese su dirección de entrega:</label>
+        <input type="text" id="direccion"><br>
+        <label for="tarjetaCredito">Ingrese el número de su tarjeta de crédito:</label>
+        <input type="text" id="tarjetaCredito"><br>
+        <button id="btnMostrarCatalogo">Ver catálogo de autos</button>
+        <button id="btnComprarAuto">Comprar auto</button>
+        <button id="btnSalir">Salir</button>
+      </div>
+    <script type="text/javascript" src="script.js"></script>
+  </body>
 </html>

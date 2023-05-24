@@ -22,7 +22,7 @@ async function mostrarCatalogo() {
   try {
     const autos = await fetchAutos();
 
-    let catalogo = "Catálogo de autos:\n\n";
+    let catalogo = "Catálogo de autos:<br><br>";
 
     // Uso de Map -> Mostrar modelos en mayúsculas
     const autosModeloEnMayuscula = autos.map((auto) => {
@@ -30,14 +30,9 @@ async function mostrarCatalogo() {
       return auto;
     });
 
-    for (
-      let index = 0;
-      index < autosModeloEnMayuscula.length;
-      index++
-    ) {
+    for (let index = 0; index < autosModeloEnMayuscula.length; index++) {
       const auto = autos[index];
-      catalogo =
-        catalogo +
+      catalogo +=
         (index + 1) +
         ". " +
         auto.modelo +
@@ -51,73 +46,74 @@ async function mostrarCatalogo() {
         auto.color +
         " - $" +
         auto.precio +
-        "\n";
+        "<br>";
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    alert(catalogo);
+    document.getElementById("output").innerHTML = catalogo;
   } catch (error) {
-    alert("Error al cargar el catálogo de autos");
+    document.getElementById("output").innerHTML = "Error al cargar el catálogo de autos";
   }
 }
 
 function comprarAuto() {
-  const seleccion = parseInt(prompt('Ingrese el número del auto que desea comprar:')) - 1;
+  const seleccion = parseInt(document.getElementById("numeroAuto").value) - 1;
 
   if (seleccion >= 0 && seleccion < autos.length) {
     const autoSeleccionado = autos[seleccion];
 
-    let nombre = "";
+    let nombre = document.getElementById("nombre").value;
+    let direccion = document.getElementById("direccion").value;
+    let tarjetaCredito = document.getElementById("tarjetaCredito").value;
 
-    if(localStorage.getItem('nombre') == null){
-      nombre = prompt('Ingrese su nombre completo:');
-      localStorage.setItem('nombre', nombre);
+    if (nombre === "" || direccion === "" || tarjetaCredito === "") {
+      document.getElementById("output").innerHTML = "Por favor, complete todos los campos.";
+    } else {
+      if (localStorage.getItem('nombre') === null){
+        localStorage.setItem('nombre', nombre);
+      }
+
+      nombre = localStorage.getItem('nombre');
+
+      const confirmacion = 'Compra realizada exitosamente.<br><br>Auto: ' + autoSeleccionado.modelo + ' - ' + autoSeleccionado.marca + '<br>Nombre: ' + nombre + '<br>Dirección: ' + direccion + '<br>Tarjeta de crédito: ' + tarjetaCredito;
+
+      console.log(confirmacion);
+      document.getElementById("output").innerHTML = confirmacion;
     }
-
-    nombre = localStorage.getItem('nombre');
-    
-    const direccion = prompt('Ingrese su dirección de entrega:');
-    const tarjetaCredito = prompt('Ingrese el número de su tarjeta de crédito:');
-
-    const confirmacion = 'Compra realizada exitosamente.\n\nAuto: ' + autoSeleccionado.modelo + ' - ' + autoSeleccionado.marca + '\nNombre: ' + nombre + '\nDirección: ' + direccion + '\nTarjeta de crédito: ' + tarjetaCredito;
-
-    console.log(confirmacion);
-    alert(confirmacion);
   } else {
-    alert('Selección inválida');
+    document.getElementById("output").innerHTML = 'Selección inválida';
   }
 }
 
-
 async function simuladorCompraAuto() {
+  const iniciarSimuladorBtn = document.getElementById("btnIniciarSimulador");
+  iniciarSimuladorBtn.disabled = true;
+
   let opcion = "";
 
   do {
-    opcion = prompt(
-      "Seleccione una opción:\n\n1. Ver catálogo de autos\n2. Comprar auto\n3. Salir"
-    );
+    document.getElementById("menuOpciones").style.display = "block";
+    document.getElementById("btnMostrarCatalogo").addEventListener("click", async () => {
+      document.getElementById("menuOpciones").style.display = "none";
+      await mostrarCatalogo();
+    });
 
-    switch (opcion) {
-      case "1":
-        await mostrarCatalogo();
-        break;
-      case "2":
-        comprarAuto();
-        break;
-      case "3":
-        alert("Gracias por utilizar nuestra página oficial");
-        break;
-      default:
-        alert("Opción inválida");
-        break;
-    }
+    document.getElementById("btnComprarAuto").addEventListener("click", () => {
+      document.getElementById("menuOpciones").style.display = "none";
+      comprarAuto();
+    });
+
+    document.getElementById("btnSalir").addEventListener("click", () => {
+      document.getElementById("menuOpciones").style.display = "none";
+      document.getElementById("output").innerHTML = "Gracias por utilizar nuestra página oficial";
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   } while (opcion !== "3");
+
+  iniciarSimuladorBtn.disabled = false;
 }
 
-console.log("Hola Marcelo, aprobame :)");
-
-
-// obtener elemento del DOM y capturar su evento click
 const btnIniciarSimulador = document.getElementById("btnIniciarSimulador");
 btnIniciarSimulador.addEventListener("click", () => {
   simuladorCompraAuto().then(() => console.log("Simulador finalizado"));
