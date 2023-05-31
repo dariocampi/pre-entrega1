@@ -76,7 +76,7 @@ function comprarAuto() {
       nombre = localStorage.getItem('nombre');
 
       const confirmacion = 'Compra realizada exitosamente.<br><br>Auto: ' + autoSeleccionado.modelo + ' - ' + autoSeleccionado.marca + '<br>Nombre: ' + nombre + '<br>Dirección: ' + direccion + '<br>Tarjeta de crédito: ' + tarjetaCredito;
-
+      alertify.alert('Felicidades, ya es tuyo!').set({ title: 'Simulador de compra de un auto' });
       console.log(confirmacion);
       document.getElementById("output").innerHTML = confirmacion;
     }
